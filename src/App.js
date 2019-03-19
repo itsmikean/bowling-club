@@ -12,13 +12,18 @@ class App extends Component {
     };
   }
 
+  isTryInValid = (allTries, currentTry, pins) =>
+    (currentTry - 1) % 2 === 0 && allTries[currentTry - 1] + pins > 10;
+
   roll = (pins) => {
     const { allTries, currentTry } = this.state;
-    const isStrike = pins === 10;
-    this.setState({
-      allTries: isStrike ? [...allTries, pins, 0] : [...allTries, pins],
-      currentTry: isStrike ? currentTry + 2 :  currentTry + 1,
-    })
+    if(!this.isTryInValid(allTries, currentTry, pins)) {
+      const isStrike = pins === 10;
+      this.setState({
+        allTries: isStrike ? [...allTries, pins, 0] : [...allTries, pins],
+        currentTry: isStrike ? currentTry + 2 :  currentTry + 1,
+      })
+    }
   }
 
   getScoreForStrike = (allTries, currentIndex) => {
