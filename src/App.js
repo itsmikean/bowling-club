@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const possiblePinsToRoll = [1,2,3,4,5,6,7,8,9,10];
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -51,9 +53,12 @@ class App extends Component {
   }
   
   score = () => {
+    const { currentTry } = this.state;
     let currentScore = 0;
     for (let currentIndex = 0; currentIndex < 10; currentIndex++) {
-      currentScore = currentScore + this.getScoreForFrame(currentIndex);  
+      if(currentTry > currentIndex * 2) {
+        currentScore = currentScore + this.getScoreForFrame(currentIndex);
+      }
     }
     return currentScore;
   }
@@ -65,6 +70,16 @@ class App extends Component {
         <header className="App-header">
           All tries: {JSON.stringify(allTries)}<br />
           Current try: {currentTry + 1}<br />
+          Score: {this.score()}<br />
+          {possiblePinsToRoll.map(
+            (possiblePin) =>
+              <button
+                key={possiblePin}
+                onClick={() => this.roll(possiblePin)}
+            >
+              {possiblePin}
+            </button>
+          )}
         </header>
       </div>
     );
