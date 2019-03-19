@@ -10,6 +10,15 @@ class App extends Component {
     };
   }
 
+  roll = (pins) => {
+    const { allTries, currentTry } = this.state;
+    const isStrike = pins === 10;
+    this.setState({
+      allTries: isStrike ? [...allTries, pins, 0] : [...allTries, pins],
+      currentTry: isStrike ? currentTry + 2 :  currentTry + 1,
+    })
+  }
+
   render() {
     const { allTries, currentTry } = this.state;
     return (
